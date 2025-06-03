@@ -17,7 +17,7 @@ const ProductsUI = () => {
   const router = useRouter();
   const { user, loading } = useLoadUser();
 
-  const token = JSON.parse(localStorage.getItem("token"));
+  // const token = JSON.parse(localStorage.getItem("token"));
 
   const getAllProducts = async () => {
     try {
