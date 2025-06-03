@@ -18,12 +18,13 @@ const ProductsUI = () => {
   const { user, loading } = useLoadUser();
 
   // const token = JSON.parse(localStorage.getItem("token"));
+  // const token = JSON.parse(localStorage.getItem("token"));
 
   const getAllProducts = async () => {
     try {
       const res = await fetch(`${apiUrl}/api/products`, {
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
       });
 

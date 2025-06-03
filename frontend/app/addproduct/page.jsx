@@ -16,7 +16,7 @@ const categories = ["AI", "SaaS", "Devtools"];
 const ProductFormUI = () => {
   const router = useRouter();
   const { user, loading } = useLoadUser();
-  console.log(user, "jhgdifu");
+  const userr = JSON.parse(localStorage.getItem("user"));
 
   const [isLoding, setIsLoding] = useState(false);
   const [formData, setFormData] = useState({
@@ -25,7 +25,7 @@ const ProductFormUI = () => {
     description: "",
     website: "",
     category: "",
-    submittedBy: "",
+    submittedBy: userr?._id || "",
   });
 
   const [logo, setLogo] = useState(null);
@@ -73,7 +73,7 @@ const ProductFormUI = () => {
           description: "",
           website: "",
           category: "",
-          submittedBy: user?._id || "",
+          submittedBy: "",
         });
         setLogo(null);
         setSelectedCategory("");
