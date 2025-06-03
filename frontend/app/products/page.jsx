@@ -23,8 +23,7 @@ const ProductsUI = () => {
     try {
       const res = await fetch(`${apiUrl}/api/products`, {
         headers: {
-          "Content-Type": "application/json",
-          Authorization: token || "",
+          "Content-Type": "application/json"
         },
       });
 
