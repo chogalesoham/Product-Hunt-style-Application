@@ -16,21 +16,42 @@ const categories = ["AI", "SaaS", "Devtools"];
 const ProductFormUI = () => {
   const router = useRouter();
   const { user, loading } = useLoadUser();
-  const userr = JSON.parse(localStorage.getItem("user"));
-  console.log(userr._id, "111111111111");
 
+  const [userr, setUserr] = useState(null); // Store parsed localStorage user
   const [isLoding, setIsLoding] = useState(false);
+
   const [formData, setFormData] = useState({
     name: "",
     tagline: "",
     description: "",
     website: "",
     category: "",
-    submittedBy: userr?._id || "",
+    submittedBy: "",
   });
 
   const [logo, setLogo] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("");
+
+  // Safe localStorage access
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedUser = localStorage.getItem("user");
+      if (storedUser) {
+        const parsedUser = JSON.parse(storedUser);
+        setUserr(parsedUser);
+        setFormData((prev) => ({
+          ...prev,
+          submittedBy: parsedUser?._id || "",
+        }));
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push("/login");
+    }
+  }, [loading, user]);
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -52,6 +73,7 @@ const ProductFormUI = () => {
       handleErrorToast("Please fill in all fields.");
       return;
     }
+
     const form = new FormData();
     Object.entries(formData).forEach(([key, value]) => form.append(key, value));
     if (logo) form.append("logoUrl", logo);
@@ -74,7 +96,7 @@ const ProductFormUI = () => {
           description: "",
           website: "",
           category: "",
-          submittedBy: "",
+          submittedBy: userr?._id || "",
         });
         setLogo(null);
         setSelectedCategory("");
@@ -86,11 +108,6 @@ const ProductFormUI = () => {
       setIsLoding(false);
     }
   };
-  useEffect(() => {
-    if (!loading && !user) {
-      router.push("/login");
-    }
-  }, [loading, user]);
 
   return (
     <div className="max-w-2xl mt-20 mx-auto p-4 bg-white rounded-2xl shadow-xl border">
@@ -198,7 +215,7 @@ const ProductFormUI = () => {
           type="submit"
           className="w-full py-2 text-sm bg-black text-white hover:bg-gray-900"
         >
-          {isLoding ? <FaSpinner className=" animate-spin" /> : "Save Product"}
+          {isLoding ? <FaSpinner className="animate-spin" /> : "Save Product"}
         </Button>
       </form>
     </div>
