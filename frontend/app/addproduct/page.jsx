@@ -17,6 +17,7 @@ const ProductFormUI = () => {
   const router = useRouter();
   const { user, loading } = useLoadUser();
   const userr = JSON.parse(localStorage.getItem("user"));
+  console.log(userr._id, "111111111111");
 
   const [isLoding, setIsLoding] = useState(false);
   const [formData, setFormData] = useState({
