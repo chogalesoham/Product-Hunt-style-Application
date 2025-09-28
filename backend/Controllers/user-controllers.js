@@ -1,6 +1,6 @@
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
-const UserModel = require("../Models/user-model");
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import UserModel from '../Models/user-model.js';
 
 // Register User
 const registerUser = async (req, res) => {
@@ -11,7 +11,7 @@ const registerUser = async (req, res) => {
     if (!name || !email || !password) {
       return res.status(400).json({
         success: false,
-        message: "All fields are required",
+        message: 'All fields are required',
       });
     }
 
@@ -20,7 +20,7 @@ const registerUser = async (req, res) => {
     if (existingUser) {
       return res.status(409).json({
         success: false,
-        message: "User already exists with this email",
+        message: 'User already exists with this email',
       });
     }
 
@@ -31,7 +31,7 @@ const registerUser = async (req, res) => {
 
     return res.status(201).json({
       success: true,
-      message: "User registration successful",
+      message: 'User registration successful',
       user: {
         _id: newUser._id,
         name: newUser.name,
@@ -39,10 +39,10 @@ const registerUser = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Register Error:", error.message);
+    console.error('Register Error:', error.message);
     return res.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: 'Internal Server Error',
     });
   }
 };
@@ -56,7 +56,7 @@ const loginUser = async (req, res) => {
     if (!email || !password) {
       return res.status(400).json({
         success: false,
-        message: "All fields are required",
+        message: 'All fields are required',
       });
     }
 
@@ -65,7 +65,7 @@ const loginUser = async (req, res) => {
     if (!existingUser) {
       return res.status(404).json({
         success: false,
-        message: "User not found with this email",
+        message: 'User not found with this email',
       });
     }
 
@@ -74,7 +74,7 @@ const loginUser = async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({
         success: false,
-        message: "Incorrect password",
+        message: 'Incorrect password',
       });
     }
 
@@ -82,12 +82,12 @@ const loginUser = async (req, res) => {
     const token = jwt.sign(
       { _id: existingUser._id, email: existingUser.email },
       process.env.JWT_SECRET,
-      { expiresIn: "2h" }
+      { expiresIn: '2h' },
     );
 
     return res.status(200).json({
       success: true,
-      message: "User login successful",
+      message: 'User login successful',
       token,
       user: {
         _id: existingUser._id,
@@ -96,12 +96,12 @@ const loginUser = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Login Error:", error.message);
+    console.error('Login Error:', error.message);
     return res.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: 'Internal Server Error',
     });
   }
 };
 
-module.exports = { registerUser, loginUser };
+export { registerUser, loginUser };

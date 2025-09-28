@@ -1,7 +1,7 @@
-import React from "react";
-import { Button } from "@/components/ui/button";
-import { FiEdit, FiTrash2 } from "react-icons/fi";
-import Link from "next/link";
+import React from 'react';
+import { Button } from '@/components/ui/button';
+import { FiEdit, FiTrash2 } from 'react-icons/fi';
+import Link from 'next/link';
 
 const ProductCard = ({
   id,
@@ -11,7 +11,7 @@ const ProductCard = ({
   websiteUrl,
   logoUrl,
   category,
-  handleDelete,
+  handleDelete
 }) => {
   return (
     <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col justify-between">

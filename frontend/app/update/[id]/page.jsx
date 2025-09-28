@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { UploadCloud } from "lucide-react";
-import { handleSuccessToast } from "@/lib/toast -message";
-import { FaSpinner } from "react-icons/fa6";
-import { useLoadUser } from "@/hooks/useLoadUser";
+import React, { useEffect, useState } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { UploadCloud } from 'lucide-react';
+import { handleSuccessToast } from '@/lib/toast -message';
+import { FaSpinner } from 'react-icons/fa6';
+import { useLoadUser } from '@/hooks/useLoadUser';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -20,28 +20,28 @@ const ProductFormUI = () => {
   const [file, setFile] = useState(null);
 
   const [formData, setFormData] = useState({
-    name: "",
-    tagline: "",
-    description: "",
-    websiteUrl: "",
-    category: "",
-    logoUrl: "",
+    name: '',
+    tagline: '',
+    description: '',
+    websiteUrl: '',
+    category: '',
+    logoUrl: ''
   });
 
   useEffect(() => {
-    const token = JSON.parse(localStorage.getItem("token"));
+    const token = JSON.parse(localStorage.getItem('token'));
 
     const fetchProduct = async () => {
       setIsLoading(true);
       try {
         const res = await fetch(`${apiUrl}/api/products/${id}`, {
           headers: {
-            "Content-Type": "application/json",
-            Authorization: token || "",
-          },
+            'Content-Type': 'application/json',
+            Authorization: token || ''
+          }
         });
 
-        if (!res.ok) throw new Error("Failed to fetch");
+        if (!res.ok) throw new Error('Failed to fetch');
 
         const data = await res.json();
         const { name, tagline, description, websiteUrl, category, logoUrl } =
@@ -52,10 +52,10 @@ const ProductFormUI = () => {
           description,
           websiteUrl,
           category,
-          logoUrl,
+          logoUrl
         });
       } catch (error) {
-        console.error("Error fetching product:", error.message);
+        console.error('Error fetching product:', error.message);
       } finally {
         setIsLoading(false);
       }
@@ -67,7 +67,7 @@ const ProductFormUI = () => {
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value
     }));
   };
 
@@ -80,46 +80,46 @@ const ProductFormUI = () => {
     // Optional: Show preview before upload by setting logoUrl to local URL
     setFormData((prev) => ({
       ...prev,
-      logoUrl: URL.createObjectURL(selectedFile),
+      logoUrl: URL.createObjectURL(selectedFile)
     }));
   };
 
   const handleUpdateProduct = async (e) => {
     e.preventDefault();
-    const token = JSON.parse(localStorage.getItem("token"));
+    const token = JSON.parse(localStorage.getItem('token'));
     setIsLoading(true);
 
     try {
       const form = new FormData();
 
       // Append all text fields
-      form.append("name", formData.name);
-      form.append("tagline", formData.tagline);
-      form.append("description", formData.description);
-      form.append("websiteUrl", formData.websiteUrl);
-      form.append("category", formData.category);
+      form.append('name', formData.name);
+      form.append('tagline', formData.tagline);
+      form.append('description', formData.description);
+      form.append('websiteUrl', formData.websiteUrl);
+      form.append('category', formData.category);
 
       // Append file only if user selected a new file
       if (file) {
-        form.append("logoUrl", file);
+        form.append('logoUrl', file);
       }
 
       const res = await fetch(`${apiUrl}/api/products/update/${id}`, {
-        method: "PUT",
+        method: 'PUT',
         headers: {
-          Authorization: token || "",
+          Authorization: token || ''
           // Don't set Content-Type, browser will set to multipart/form-data boundary automatically
         },
-        body: form,
+        body: form
       });
 
-      if (!res.ok) throw new Error("Failed to update product");
+      if (!res.ok) throw new Error('Failed to update product');
 
       const result = await res.json();
       handleSuccessToast(result?.message);
-      router.push("/products");
+      router.push('/products');
     } catch (error) {
-      console.error("Update failed:", error.message);
+      console.error('Update failed:', error.message);
     } finally {
       setIsLoading(false);
     }
@@ -127,9 +127,9 @@ const ProductFormUI = () => {
 
   useEffect(() => {
     if (!loading && !user) {
-      router.push("/login");
+      router.push('/login');
     }
-  }, [loading, user]);
+  }, [loading, user, router]);
 
   return (
     <div className="max-w-2xl mt-20 mx-auto p-4 bg-white rounded-2xl shadow-xl border">
@@ -194,7 +194,7 @@ const ProductFormUI = () => {
             Category
           </label>
           <div className="flex flex-wrap gap-2">
-            {["AI", "SaaS", "Devtools"].map((cat) => (
+            {['AI', 'SaaS', 'Devtools'].map((cat) => (
               <button
                 key={cat}
                 type="button"
@@ -203,8 +203,8 @@ const ProductFormUI = () => {
                 }
                 className={`px-4 py-1.5 rounded-full border text-sm transition ${
                   formData.category === cat
-                    ? "bg-blue-600 text-white border-blue-600"
-                    : "border-gray-300 text-gray-700 hover:bg-gray-100"
+                    ? 'bg-blue-600 text-white border-blue-600'
+                    : 'border-gray-300 text-gray-700 hover:bg-gray-100'
                 }`}
               >
                 {cat}
@@ -219,15 +219,15 @@ const ProductFormUI = () => {
           </label>
           <div
             className="w-full border-2 border-dashed border-gray-300 rounded-xl p-4 flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 transition cursor-pointer"
-            onClick={() => document.getElementById("logoInput")?.click()}
+            onClick={() => document.getElementById('logoInput')?.click()}
           >
             <UploadCloud className="w-6 h-6 text-gray-400 mb-1" />
             <span className="text-gray-600 text-sm">
               {file
-                ? "New Logo Selected ✅"
+                ? 'New Logo Selected ✅'
                 : formData.logoUrl
-                ? "Current Logo ✅"
-                : "Click to upload"}
+                  ? 'Current Logo ✅'
+                  : 'Click to upload'}
             </span>
             <span className="text-xs text-gray-500">PNG, JPG (max 1MB)</span>
             <input
@@ -253,7 +253,7 @@ const ProductFormUI = () => {
           disabled={isLoading}
           className="w-full py-2 text-sm bg-black text-white hover:bg-gray-900 disabled:opacity-50"
         >
-          {isLoading ? <FaSpinner className=" animate-spin" /> : "Save Product"}
+          {isLoading ? <FaSpinner className=" animate-spin" /> : 'Save Product'}
         </Button>
       </form>
     </div>

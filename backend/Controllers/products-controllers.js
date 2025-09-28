@@ -1,4 +1,4 @@
-const productModel = require("../Models/product-modle");
+import productModel from '../Models/product-modle.js';
 
 // Create a new product
 const createNewProduct = async (req, res) => {
@@ -13,13 +13,13 @@ const createNewProduct = async (req, res) => {
 
     res.status(201).json({
       success: true,
-      message: "Product created successfully",
+      message: 'Product created successfully',
       data: newProduct,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: 'Internal Server Error',
       error: error.message,
     });
   }
@@ -31,13 +31,13 @@ const getAllProducts = async (req, res) => {
     const products = await productModel.find();
     res.status(200).json({
       success: true,
-      message: "Fetched all products successfully",
+      message: 'Fetched all products successfully',
       data: products,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: 'Internal Server Error',
       error: error.message,
     });
   }
@@ -51,13 +51,13 @@ const getProductById = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: "Fetched product by id successfully",
+      message: 'Fetched product by id successfully',
       data: product,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: 'Internal Server Error',
       error: error.message,
     });
   }
@@ -71,7 +71,7 @@ const updateProduct = async (req, res) => {
     if (!id) {
       return res.status(400).json({
         success: false,
-        message: "Product ID is required",
+        message: 'Product ID is required',
       });
     }
 
@@ -83,31 +83,27 @@ const updateProduct = async (req, res) => {
       updateData.logoUrl = req.file.path;
     }
 
-    const updatedProduct = await productModel.findByIdAndUpdate(
-      id,
-      updateData,
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
+    const updatedProduct = await productModel.findByIdAndUpdate(id, updateData, {
+      new: true,
+      runValidators: true,
+    });
 
     if (!updatedProduct) {
       return res.status(404).json({
         success: false,
-        message: "Product not found",
+        message: 'Product not found',
       });
     }
 
     res.status(200).json({
       success: true,
-      message: "Product updated successfully",
+      message: 'Product updated successfully',
       data: updatedProduct,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: 'Internal Server Error',
       error: error.message,
     });
   }
@@ -123,25 +119,25 @@ const deleteProduct = async (req, res) => {
     if (!deletedProduct) {
       return res.status(404).json({
         success: false,
-        message: "Product not found",
+        message: 'Product not found',
       });
     }
 
     res.status(200).json({
       success: true,
-      message: "Product deleted successfully",
+      message: 'Product deleted successfully',
       data: deletedProduct,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: 'Internal Server Error',
       error: error.message,
     });
   }
 };
 
-module.exports = {
+export {
   createNewProduct,
   getAllProducts,
   getProductById,

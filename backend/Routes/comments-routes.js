@@ -1,12 +1,10 @@
-const express = require("express");
-const {
-  getCommentsByProductId,
-  postNewComment,
-} = require("../Controllers/comments-controllers");
-const ensureAuthorized = require("../Middlewares/auth");
+import express from 'express';
+import { getCommentsByProductId, postNewComment } from '../Controllers/comments-controllers.js';
+import ensureAuthorized from '../Middlewares/auth.js';
+
 const router = express.Router();
 
-router.post("/post-comment", postNewComment);
-router.get("/:productId", getCommentsByProductId);
+router.post('/post-comment', ensureAuthorized, postNewComment);
+router.get('/:productId', getCommentsByProductId);
 
-module.exports = router;
+export default router;

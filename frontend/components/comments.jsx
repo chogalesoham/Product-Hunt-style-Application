@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { SendHorizonal } from "lucide-react";
-import { Button } from "./ui/button";
-import { handleSuccessToast } from "@/lib/toast -message";
-import { FaSpinner } from "react-icons/fa6";
+import React, { useState, useEffect, useCallback } from 'react';
+import { SendHorizonal } from 'lucide-react';
+import { Button } from './ui/button';
+import { handleSuccessToast } from '@/lib/toast -message';
+import { FaSpinner } from 'react-icons/fa6';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 const Comments = ({ productId }) => {
   const [isLoding, setIsLoding] = useState(false);
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem('user'));
   const [commentData, setCommentData] = useState({
-    comment: "",
+    comment: '',
     userId: user?._id,
-    productId: productId,
+    productId: productId
   });
   const [comments, setComments] = useState([]);
 
   // Fetch all comments for this product
-  const getCommentData = async () => {
+  const getCommentData = useCallback(async () => {
     try {
       const res = await fetch(`${apiUrl}/api/comment/${productId}`);
       const result = await res.json();
@@ -25,9 +25,9 @@ const Comments = ({ productId }) => {
         setComments(result?.data || []);
       }
     } catch (error) {
-      console.error("Error fetching comments:", error);
+      console.error('Error fetching comments:', error);
     }
-  };
+  }, [productId]);
 
   // Handle comment post
   const handleCommentPost = async (e) => {
@@ -35,30 +35,30 @@ const Comments = ({ productId }) => {
     try {
       setIsLoding(true);
       const res = await fetch(`${apiUrl}/api/comment/post-comment`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify(commentData),
+        body: JSON.stringify(commentData)
       });
       const result = await res.json();
       setIsLoding(false);
       if (result?.success) {
         handleSuccessToast(result?.message);
-        setCommentData({ ...commentData, comment: "" });
+        setCommentData({ ...commentData, comment: '' });
         getCommentData();
         setIsLoding(false);
       }
     } catch (error) {
-      console.error("Error posting comment:", error);
-      handleSuccessToast("Something went wrong. Please try again.");
+      console.error('Error posting comment:', error);
+      handleSuccessToast('Something went wrong. Please try again.');
       setIsLoding(false);
     }
   };
 
   useEffect(() => {
     if (productId) getCommentData();
-  }, [productId]);
+  }, [productId, getCommentData]);
 
   return (
     <div className="bg-white border border-gray-200 rounded-3xl shadow-xl p-8 lg:p-10 max-h-[700px] overflow-auto">
@@ -102,7 +102,7 @@ const Comments = ({ productId }) => {
               className="border-t border-gray-300 transition-all"
             >
               <p className="font-semibold text-gray-700 capitalize">
-                {cmt?.userId?.name || "Anonymous"}
+                {cmt?.userId?.name || 'Anonymous'}
               </p>
               <p className="text-gray-600 capitalize">{cmt?.comment}</p>
             </div>

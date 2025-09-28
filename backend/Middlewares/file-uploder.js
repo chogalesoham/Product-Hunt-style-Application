@@ -1,6 +1,6 @@
-const multer = require("multer");
-const { CloudinaryStorage } = require("multer-storage-cloudinary");
-const cloudinary = require("cloudinary").v2;
+import multer from 'multer';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
+import { v2 as cloudinary } from 'cloudinary';
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -11,14 +11,14 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: "uploads",
-    format: async (req, file) => "png",
-    public_id: (req, file) => file.originalname.split(".")[0] + "",
+    folder: 'uploads',
+    format: async (_req, _file) => 'png',
+    public_id: (_req, file) => file.originalname.split('.')[0] + '',
   },
 });
 
 const CloudinaryFileUploder = multer({ storage: storage });
 
-module.exports = {
+export {
   CloudinaryFileUploder,
 };

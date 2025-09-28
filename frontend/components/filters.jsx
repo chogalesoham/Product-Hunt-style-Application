@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react';
 
-const categories = ["All", "AI", "SaaS", "Devtools"];
+const categories = ['All', 'AI', 'SaaS', 'Devtools'];
 
 const Filters = ({
   selectedCategory,
   handleFilter,
   sortOption,
-  handleSort,
+  handleSort
 }) => {
   return (
     <div className="flex flex-col sm:flex-row items-center justify-between mb-8 gap-4">
@@ -18,8 +18,8 @@ const Filters = ({
             onClick={() => handleFilter(cat)}
             className={`mr-2 mb-2 sm:mb-0 px-4 py-2 rounded-full border ${
               selectedCategory === cat
-                ? "bg-black text-white"
-                : "bg-white text-gray-700"
+                ? 'bg-black text-white'
+                : 'bg-white text-gray-700'
             } hover:bg-gray-100 transition`}
           >
             {cat}

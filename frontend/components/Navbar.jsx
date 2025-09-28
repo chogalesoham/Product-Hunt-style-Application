@@ -1,29 +1,29 @@
-"use client";
-import Link from "next/link";
-import React from "react";
-import { Button } from "./ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { FiLogIn, FiUserPlus, FiPlusCircle } from "react-icons/fi";
+'use client';
+import Link from 'next/link';
+import React from 'react';
+import { Button } from './ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { FiLogIn, FiUserPlus, FiPlusCircle } from 'react-icons/fi';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useRouter } from "next/navigation";
-import { useLoadUser } from "@/hooks/useLoadUser";
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu';
+import { useRouter } from 'next/navigation';
+import { useLoadUser } from '@/hooks/useLoadUser';
 
 const Navbar = () => {
-  const { user, loading } = useLoadUser(); // ✅ properly destructured
+  const { user, loading: _loading } = useLoadUser(); // ✅ properly destructured
   const router = useRouter();
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-    router.push("/login");
-    window.dispatchEvent(new Event("userChanged")); // ✅ notify hook
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    router.push('/login');
+    window.dispatchEvent(new Event('userChanged')); // ✅ notify hook
   };
 
   return (
@@ -47,7 +47,7 @@ const Navbar = () => {
                       alt="User Avatar"
                     />
                     <AvatarFallback className="text-sm font-semibold">
-                      {user.name?.[0]?.toUpperCase() ?? "U"}
+                      {user.name?.[0]?.toUpperCase() ?? 'U'}
                     </AvatarFallback>
                   </Avatar>
                 </DropdownMenuTrigger>

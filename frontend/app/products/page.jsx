@@ -1,19 +1,19 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import Filters from "@/components/filters";
-import ProductCard from "@/components/product-card";
-import { handleErrorToast, handleSuccessToast } from "@/lib/toast -message";
-import { useRouter } from "next/navigation";
-import { useLoadUser } from "@/hooks/useLoadUser";
+'use client';
+import React, { useEffect, useState, useCallback } from 'react';
+import Filters from '@/components/filters';
+import ProductCard from '@/components/product-card';
+import { handleErrorToast, handleSuccessToast } from '@/lib/toast -message';
+import { useRouter } from 'next/navigation';
+import { useLoadUser } from '@/hooks/useLoadUser';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 const ProductsUI = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [_isLoading, _setIsLoading] = useState(false);
   const [productsData, setProductsData] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [sortOption, setSortOption] = useState("Trending");
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [sortOption, setSortOption] = useState('Trending');
   const router = useRouter();
   const { user, loading } = useLoadUser();
 
@@ -24,8 +24,8 @@ const ProductsUI = () => {
     try {
       const res = await fetch(`${apiUrl}/api/products`, {
         headers: {
-          "Content-Type": "application/json",
-        },
+          'Content-Type': 'application/json'
+        }
       });
 
       if (!res.ok) {
@@ -36,14 +36,14 @@ const ProductsUI = () => {
       setProductsData(data?.data || []);
       setFilteredProducts(data?.data || []);
     } catch (error) {
-      console.error("Error fetching products:", error.message);
+      console.error('Error fetching products:', error.message);
     }
   };
 
   const handleDelete = async (id) => {
     try {
       const res = await fetch(`${apiUrl}/api/products/delete/${id}`, {
-        method: "DELETE",
+        method: 'DELETE'
       });
 
       const result = await res.json();
@@ -52,35 +52,35 @@ const ProductsUI = () => {
         handleSuccessToast(result?.message);
         getAllProducts();
       } else {
-        handleErrorToast(result.message || "Failed to delete product.");
+        handleErrorToast(result.message || 'Failed to delete product.');
       }
     } catch (error) {
-      console.error("Delete failed:", error);
-      handleErrorToast("Something went wrong.");
+      console.error('Delete failed:', error);
+      handleErrorToast('Something went wrong.');
     }
   };
 
-  const handleFilter = (category) => {
+  const handleFilter = useCallback((category) => {
     setSelectedCategory(category);
 
     let filtered = [...productsData];
-    if (category !== "All") {
+    if (category !== 'All') {
       filtered = filtered.filter((product) => product.category === category);
     }
 
-    if (sortOption === "Latest") {
+    if (sortOption === 'Latest') {
       filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     }
 
     setFilteredProducts(filtered);
-  };
+  }, [productsData, sortOption]);
 
   const handleSort = (sort) => {
     setSortOption(sort);
 
-    let sorted = [...filteredProducts];
+    const sorted = [...filteredProducts];
 
-    if (sort === "Latest") {
+    if (sort === 'Latest') {
       sorted.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     }
 
@@ -93,13 +93,13 @@ const ProductsUI = () => {
 
   useEffect(() => {
     handleFilter(selectedCategory);
-  }, [productsData]);
+  }, [handleFilter, selectedCategory]);
 
   useEffect(() => {
     if (!loading && !user) {
-      router.push("/login");
+      router.push('/login');
     }
-  }, [loading, user]);
+  }, [loading, user, router]);
 
   return (
     <section className="py-12 bg-gray-50 min-h-screen px-6">

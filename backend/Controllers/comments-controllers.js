@@ -1,4 +1,4 @@
-const commentModel = require("../Models/comment-model");
+import commentModel from '../Models/comment-model.js';
 
 const postNewComment = async (req, res) => {
   try {
@@ -10,7 +10,7 @@ const postNewComment = async (req, res) => {
       await existingComment.save();
       return res.status(200).json({
         success: true,
-        message: "Comment updated successfully",
+        message: 'Comment updated successfully',
       });
     }
 
@@ -18,12 +18,12 @@ const postNewComment = async (req, res) => {
     await newComment.save();
     res.status(201).json({
       success: true,
-      message: "Comment posted successfully",
+      message: 'Comment posted successfully',
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: 'Internal Server Error',
       error: error.message,
     });
   }
@@ -34,22 +34,22 @@ const getCommentsByProductId = async (req, res) => {
     const { productId } = req.params;
     const comments = await commentModel
       .find({ productId })
-      .populate("userId", "name")
+      .populate('userId', 'name')
       .sort({ createdAt: -1 });
 
     res.status(200).json({
       success: true,
-      message: "All comments for this product",
+      message: 'All comments for this product',
       data: comments,
     });
   } catch (error) {
-    console.error("Error in getCommentsByProductId:", error);
+    console.error('Error in getCommentsByProductId:', error);
     res.status(500).json({
       success: false,
-      message: "Internal Server Error",
+      message: 'Internal Server Error',
       error: error.message,
     });
   }
 };
 
-module.exports = { postNewComment, getCommentsByProductId };
+export { postNewComment, getCommentsByProductId };

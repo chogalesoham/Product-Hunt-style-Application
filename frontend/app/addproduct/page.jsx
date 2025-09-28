@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { FaSpinner } from "react-icons/fa6";
-import { UploadCloud } from "lucide-react";
-import { handleErrorToast, handleSuccessToast } from "@/lib/toast -message";
-import { useLoadUser } from "@/hooks/useLoadUser";
-import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { FaSpinner } from 'react-icons/fa6';
+import { UploadCloud } from 'lucide-react';
+import { handleErrorToast, handleSuccessToast } from '@/lib/toast -message';
+import { useLoadUser } from '@/hooks/useLoadUser';
+import { useRouter } from 'next/navigation';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-const categories = ["AI", "SaaS", "Devtools"];
+const categories = ['AI', 'SaaS', 'Devtools'];
 
 const ProductFormUI = () => {
   const router = useRouter();
@@ -21,27 +21,27 @@ const ProductFormUI = () => {
   const [isLoding, setIsLoding] = useState(false);
 
   const [formData, setFormData] = useState({
-    name: "",
-    tagline: "",
-    description: "",
-    website: "",
-    category: "",
-    submittedBy: "",
+    name: '',
+    tagline: '',
+    description: '',
+    website: '',
+    category: '',
+    submittedBy: ''
   });
 
   const [logo, setLogo] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState('');
 
   // Safe localStorage access
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedUser = localStorage.getItem("user");
+    if (typeof window !== 'undefined') {
+      const storedUser = localStorage.getItem('user');
       if (storedUser) {
         const parsedUser = JSON.parse(storedUser);
         setUserr(parsedUser);
         setFormData((prev) => ({
           ...prev,
-          submittedBy: parsedUser?._id || "",
+          submittedBy: parsedUser?._id || ''
         }));
       }
     }
@@ -49,9 +49,9 @@ const ProductFormUI = () => {
 
   useEffect(() => {
     if (!loading && !user) {
-      router.push("/login");
+      router.push('/login');
     }
-  }, [loading, user]);
+  }, [loading, user, router]);
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -70,19 +70,19 @@ const ProductFormUI = () => {
     e.preventDefault();
     const { name, tagline, description, website, category } = formData;
     if (!name || !tagline || !description || !website || !category) {
-      handleErrorToast("Please fill in all fields.");
+      handleErrorToast('Please fill in all fields.');
       return;
     }
 
     const form = new FormData();
     Object.entries(formData).forEach(([key, value]) => form.append(key, value));
-    if (logo) form.append("logoUrl", logo);
+    if (logo) form.append('logoUrl', logo);
 
     try {
       setIsLoding(true);
       const res = await fetch(`${apiUrl}/api/products/create`, {
-        method: "POST",
-        body: form,
+        method: 'POST',
+        body: form
       });
 
       const result = await res.json();
@@ -91,20 +91,20 @@ const ProductFormUI = () => {
         handleSuccessToast(result?.message);
         setIsLoding(false);
         setFormData({
-          name: "",
-          tagline: "",
-          description: "",
-          website: "",
-          category: "",
-          submittedBy: userr?._id || "",
+          name: '',
+          tagline: '',
+          description: '',
+          website: '',
+          category: '',
+          submittedBy: userr?._id || ''
         });
         setLogo(null);
-        setSelectedCategory("");
+        setSelectedCategory('');
       } else {
         handleErrorToast(result?.message);
       }
-    } catch (err) {
-      handleErrorToast("❌ Something went wrong.");
+    } catch {
+      handleErrorToast('❌ Something went wrong.');
       setIsLoding(false);
     }
   };
@@ -174,7 +174,7 @@ const ProductFormUI = () => {
           <label className="w-full border-2 border-dashed border-gray-300 rounded-xl p-4 flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100 transition cursor-pointer">
             <UploadCloud className="w-6 h-6 text-gray-400 mb-1" />
             <span className="text-gray-600 text-sm">
-              {logo ? logo.name : "Click to upload"}
+              {logo ? logo.name : 'Click to upload'}
             </span>
             <span className="text-xs text-gray-500">
               SVG, PNG, JPG (max 1MB)
@@ -201,8 +201,8 @@ const ProductFormUI = () => {
                 onClick={() => handleCategoryClick(cat)}
                 className={`px-4 py-1.5 rounded-full border text-sm transition ${
                   selectedCategory === cat
-                    ? "bg-black text-white border-black"
-                    : "border-gray-300 text-gray-700 hover:bg-gray-100"
+                    ? 'bg-black text-white border-black'
+                    : 'border-gray-300 text-gray-700 hover:bg-gray-100'
                 }`}
               >
                 {cat}
@@ -215,7 +215,7 @@ const ProductFormUI = () => {
           type="submit"
           className="w-full py-2 text-sm bg-black text-white hover:bg-gray-900"
         >
-          {isLoding ? <FaSpinner className="animate-spin" /> : "Save Product"}
+          {isLoding ? <FaSpinner className="animate-spin" /> : 'Save Product'}
         </Button>
       </form>
     </div>

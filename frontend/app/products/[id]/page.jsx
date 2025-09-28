@@ -1,30 +1,30 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { ExternalLink } from "lucide-react";
-import Comments from "@/components/comments";
-import { useParams } from "next/navigation";
+import React, { useEffect, useState, useCallback } from 'react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { ExternalLink } from 'lucide-react';
+import Comments from '@/components/comments';
+import { useParams } from 'next/navigation';
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 const SingleProduct = () => {
   const [product, setProduct] = useState(null);
 
   const [isLoading, setIsLoading] = useState(false);
-  const token = JSON.parse(localStorage.getItem("token"));
+  const token = JSON.parse(localStorage.getItem('token'));
 
   const params = useParams();
   const id = params.id;
 
-  const fetchProduct = async () => {
+  const fetchProduct = useCallback(async () => {
     setIsLoading(true);
     try {
       const res = await fetch(`${apiUrl}/api/products/${id}`, {
         headers: {
-          "Content-Type": "application/json",
-          Authorization: token || "",
-        },
+          'Content-Type': 'application/json',
+          Authorization: token || ''
+        }
       });
 
       if (!res.ok) {
@@ -34,15 +34,15 @@ const SingleProduct = () => {
       const data = await res.json();
       setProduct(data.data);
     } catch (error) {
-      console.error("Error fetching product:", error.message);
+      console.error('Error fetching product:', error.message);
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [id, token]);
 
   useEffect(() => {
     fetchProduct();
-  }, []);
+  }, [fetchProduct]);
 
   if (isLoading) return <div>Loading...</div>;
   if (!product) return <div>No product found.</div>;

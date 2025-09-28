@@ -1,19 +1,19 @@
-"use client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { FaSpinner } from "react-icons/fa6";
-import { handleErrorToast, handleSuccessToast } from "@/lib/toast -message";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+'use client';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { FaSpinner } from 'react-icons/fa6';
+import { handleErrorToast, handleSuccessToast } from '@/lib/toast -message';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 const Login = () => {
   const router = useRouter();
   const [isLoding, setIsLoding] = useState(false);
   const [loginInfo, setLoginInfo] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: ''
   });
 
   const setInputes = (e) => {
@@ -26,27 +26,27 @@ const Login = () => {
     try {
       setIsLoding(true);
       const res = await fetch(`${apiUrl}/api/auth/login`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify(loginInfo),
+        body: JSON.stringify(loginInfo)
       });
 
       const { message, success, user, token } = await res.json();
       if (success) {
         handleSuccessToast(message);
-        localStorage.setItem("user", JSON.stringify(user));
-        localStorage.setItem("token", JSON.stringify(token));
-        window.dispatchEvent(new Event("userChanged"));
+        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('token', JSON.stringify(token));
+        window.dispatchEvent(new Event('userChanged'));
         setIsLoding(false);
-        router.push("/");
+        router.push('/');
       } else {
         handleErrorToast(message);
         setIsLoding(false);
       }
-    } catch (err) {
-      handleErrorToast(message);
+    } catch {
+      handleErrorToast('Login failed. Please try again.');
       setIsLoding(false);
     }
   };
@@ -87,11 +87,11 @@ const Login = () => {
             />
           </div>
           <Button className="w-full bg-black text-white hover:bg-gray-900 py-3 text-base transition">
-            {isLoding ? <FaSpinner className=" animate-spin" /> : "Login"}
+            {isLoding ? <FaSpinner className=" animate-spin" /> : 'Login'}
           </Button>
         </form>
         <p className="text-sm text-center text-gray-600 mt-6">
-          Don&apos;t have an account?{" "}
+          Don&apos;t have an account?{' '}
           <Link
             href="/signup"
             className="text-blue-600 hover:underline font-medium"

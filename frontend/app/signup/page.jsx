@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { FaSpinner } from "react-icons/fa6";
-import { handleErrorToast, handleSuccessToast } from "@/lib/toast -message";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { FaSpinner } from 'react-icons/fa6';
+import { handleErrorToast, handleSuccessToast } from '@/lib/toast -message';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 const SignUp = () => {
   const router = useRouter();
   const [isLoding, setIsLoding] = useState(false);
   const [signupInfo, setSignupInfo] = useState({
-    name: "",
-    email: "",
-    password: "",
+    name: '',
+    email: '',
+    password: ''
   });
 
   const setInputes = (e) => {
@@ -28,24 +28,24 @@ const SignUp = () => {
     try {
       setIsLoding(true);
       const res = await fetch(`${apiUrl}/api/auth/register`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify(signupInfo),
+        body: JSON.stringify(signupInfo)
       });
 
-      const { message, success, user } = await res.json();
+      const { message, success, user: _user } = await res.json();
       if (success) {
         handleSuccessToast(message);
         setIsLoding(false);
-        router.push("/login");
+        router.push('/login');
       } else {
         handleErrorToast(message);
         setIsLoding(false);
       }
-    } catch (err) {
-      handleErrorToast(message);
+    } catch {
+      handleErrorToast('Signup failed. Please try again.');
       setIsLoding(false);
     }
   };
@@ -101,12 +101,12 @@ const SignUp = () => {
           </div>
 
           <Button className="w-full bg-black text-white hover:bg-gray-900 py-3 text-base transition">
-            {isLoding ? <FaSpinner className=" animate-spin" /> : "Sign Up"}
+            {isLoding ? <FaSpinner className=" animate-spin" /> : 'Sign Up'}
           </Button>
         </form>
 
         <p className="text-sm text-center text-gray-600 mt-6">
-          Already have an account?{" "}
+          Already have an account?{' '}
           <Link
             href="/login"
             className="text-blue-600 hover:underline font-medium"

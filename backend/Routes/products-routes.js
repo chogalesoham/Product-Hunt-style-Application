@@ -1,26 +1,19 @@
-const express = require("express");
-const {
+import express from 'express';
+import {
   getAllProducts,
   createNewProduct,
   updateProduct,
   deleteProduct,
   getProductById,
-} = require("../Controllers/products-controllers");
-const { CloudinaryFileUploder } = require("../Middlewares/file-uploder");
+} from '../Controllers/products-controllers.js';
+import { CloudinaryFileUploder } from '../Middlewares/file-uploder.js';
+
 const router = express.Router();
 
-router.get("/", getAllProducts);
-router.get("/:id", getProductById);
-router.post(
-  "/create",
-  CloudinaryFileUploder.single("logoUrl"),
-  createNewProduct
-);
-router.put(
-  "/update/:id",
-  CloudinaryFileUploder.single("logoUrl"),
-  updateProduct
-);
-router.delete("/delete/:id", deleteProduct);
+router.get('/', getAllProducts);
+router.get('/:id', getProductById);
+router.post('/create', CloudinaryFileUploder.single('logoUrl'), createNewProduct);
+router.put('/update/:id', CloudinaryFileUploder.single('logoUrl'), updateProduct);
+router.delete('/delete/:id', deleteProduct);
 
-module.exports = router;
+export default router;

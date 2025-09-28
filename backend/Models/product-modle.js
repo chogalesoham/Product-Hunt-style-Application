@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from 'mongoose';
 
 const productSchema = new mongoose.Schema(
   {
@@ -9,14 +9,14 @@ const productSchema = new mongoose.Schema(
     logoUrl: { type: String },
     category: {
       type: String,
-      enum: ["AI", "SaaS", "Devtools"],
+      enum: ['AI', 'SaaS', 'Devtools'],
       required: true,
     },
-    submittedBy: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
-    upvotes: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
+    submittedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
+    upvotes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-const productModel = mongoose.model("Product", productSchema);
-module.exports = productModel;
+const productModel = mongoose.model('Product', productSchema);
+export default productModel;
