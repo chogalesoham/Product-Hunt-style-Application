@@ -59,7 +59,7 @@ jobs:
           cache-dependency-path: 'frontend/package-lock.json'
 
       - name: Cache node modules
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('frontend/package-lock.json') }}
@@ -150,7 +150,7 @@ jobs:
           cache-dependency-path: 'backend/package-lock.json'
 
       - name: Cache node modules
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('backend/package-lock.json') }}
