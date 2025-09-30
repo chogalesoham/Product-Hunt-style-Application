@@ -4,7 +4,7 @@
 import express from 'express';
 
 console.log('✅ ES Modules are working correctly!');
-console.log('✅ Express import successful');
+console.log('✅ Express import successful:', typeof express);
 
 // Test that all main imports work
 try {
