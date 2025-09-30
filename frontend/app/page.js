@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button';
 import React from 'react';
 
 const Hero = () => {
-  const soham = 'unused variable to fix lint warning';
   return (
     <section className="min-h-screen flex items-center bg-gradient-to-br from-gray-50 to-gray-200 px-6">
       <div className="max-w-4xl mx-auto text-center px-4">
