@@ -34,10 +34,12 @@ const Comments = ({ productId }) => {
     e.preventDefault();
     try {
       setIsLoding(true);
+      const token = JSON.parse(localStorage.getItem('token'));
       const res = await fetch(`${apiUrl}/api/comment/post-comment`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: token || ''
         },
         body: JSON.stringify(commentData)
       });
